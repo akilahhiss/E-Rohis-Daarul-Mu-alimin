@@ -144,7 +144,7 @@
 <!-- SIDEBAR -->
 <div class="sidebar">
     <h2>ADMIN ROHIS</h2>
-    <a href="dashboard_admin.php">Dashboard</a>
+    <a href="dashboard.php">Dashboard</a>
     <a href="kelola_user.php" style="background:#154734;">Kelola User</a>
     <a href="kelola_event.php">Kelola Event</a>
     <a href="kelola_konten.php">Kelola Konten</a>
@@ -156,40 +156,48 @@
 <div class="main">
     <h1>Kelola User</h1>
 
-    <button class="add-btn">+ Tambah User</button>
+    <button class="add-btn" onclick="window.location.href='akun.php'">
+    + Tambah User
+</button>
 
-    <table>
+
+    <table class="table">
+    <thead>
         <tr>
             <th>Nama</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
+            <th>Username</th>
+            <th>Password</th>
+             <th>Role</th>
+            <th>Kelas</th>
             <th>Aksi</th>
         </tr>
+    </thead>
+    <tbody>
+        <?php
+        include 'koneksi.php'; // Pastikan path ini sudah benar
+        
+        // 1. Ambil data dari tabel users (sesuaikan nama tabelmu, misal: 'users')
+        $query = mysqli_query($koneksi, "SELECT * FROM akun ORDER BY tggl_dibuat DESC");
 
+        // 2. Perulangan untuk menampilkan data
+        while($data = mysqli_fetch_array($query)){
+        ?>
         <tr>
-            <td>Akilah Isnaini</td>
-            <td>akilah@example.com</td>
-            <td>Admin</td>
-            <td>Aktif</td>
+            <td><?php echo $data['nama']; ?></td>
+            <td><?php echo $data['username']; ?></td>
+            <td><?php echo $data['password']; ?></td>
+            <td><?php echo $data['role']; ?></td>
+            <td><?php echo $data['kelas']; ?></td>
             <td>
-                <button class="aksi-btn edit">Edit</button>
-                <button class="aksi-btn hapus">Hapus</button>
+                <a href="edit.php?id=<?php echo $data['username']; ?>" class="btn-edit">Edit</a>
+                <a href="hapus.php?id=<?php echo $data['username']; ?>" class="btn-hapus">Hapus</a>
             </td>
         </tr>
-
-        <tr>
-            <td>Rohis Member</td>
-            <td>member@example.com</td>
-            <td>User</td>
-            <td>Aktif</td>
-            <td>
-                <button class="aksi-btn edit">Edit</button>
-                <button class="aksi-btn hapus">Hapus</button>
-            </td>
-        </tr>
-
-    </table>
+        <?php 
+        } // Tutup perulangan
+        ?>
+    </tbody>
+</table>
 </div>
 
 </body>
